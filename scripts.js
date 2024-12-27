@@ -22,7 +22,7 @@ let globalSeason = null; /* I need this globally accessible for the load_popup f
 document.addEventListener('DOMContentLoaded', init);
 
 function init() { 
-    const url = "https://colewas-f1-api.onrender.com";
+    const url = "https://colewas-f1-api.onrender.com/api";
     const home = document.querySelector("#home_button");
     const favorites_button = document.querySelector("#favorites_button");
 
