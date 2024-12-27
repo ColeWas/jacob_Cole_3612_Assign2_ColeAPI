@@ -115,7 +115,7 @@ function init() {
     // Purpose: Fetches all of the races for a particular season. These should be stored in localStorage.
     /*------------------------------------------------------------------------------------------------------*/
     function fetch_race_season(season) {
-        let request = `${url}/races.php?season=${season}`; //Stored in localStorage
+        let request = `${url}/races/season/${season}`; //Stored in localStorage
         return fetch_store_API_data(request); /*Returns a promise object*/
     }
 
@@ -124,7 +124,7 @@ function init() {
     // Purpose: Fetches all of the race results for a particular season. These should be stored in localStorage.
     /*------------------------------------------------------------------------------------------------------*/
     function fetch_season_results(season) {
-        let request = `${url}/results.php?season=${season}`; //Stored in localStorage
+        let request = `${url}/results/season/${season}`; //Stored in localStorage
         return fetch_store_API_data(request);
     }
 
@@ -134,7 +134,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_season_qualifying(season) {
-        let request = `${url}/qualifying.php?season=${season}`; //Stored in localStorage
+        let request = `${url}/qualifying/season/${season}`; //Stored in localStorage
         return fetch_store_API_data(request);
     }
 
@@ -145,7 +145,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_race_qualify(raceID, season) {
-        const qualifyingJSON = localStorage.getItem(`${url}/qualifying.php?season=${season}`);
+        const qualifyingJSON = localStorage.getItem(`${url}/qualifying/season/${season}`);
         
         if (!qualifyingJSON) {
             console.error("Qualifying data not found in localStorage for season:", season);
@@ -169,7 +169,7 @@ function init() {
     should only be called after fetch_season_results has been called to ensure that results data for the season has already been stored in localStorage.
     /*------------------------------------------------------------------------------------------------------*/
     function fetch_race_results(raceID, season) {
-        const resultsJSON = localStorage.getItem(`${url}/results.php?season=${season}`);
+        const resultsJSON = localStorage.getItem(`${url}/results/season/${season}`);
         
         if (!resultsJSON) {
             console.error("results data not found in localStorage for season:", season);
@@ -193,7 +193,7 @@ function init() {
     // Purpose: Fetch the data for a particular driver for display in the driver dialog.
     /*------------------------------------------------------------------------------------------------------*/
     function fetch_driver(driverRef) {
-        let request = `${url}/drivers.php?ref=${driverRef}`;
+        let request = `${url}/drivers/${driverRef}`;
         return fetch_store_API_data(request);
     }
     /*--------------------------------------------------------------------------------------------------------
@@ -202,7 +202,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_driver_results(driverRef, season) {
-        let request = `${url}/driverResults.php?driver=${driverRef}&season=${season}`;
+        let request = `${url}/driverResults/${driverRef}/${season}`;
         console.log("Attempting to fetch driver results, request:", request);
         return fetch_store_API_data(request);
     }
@@ -213,7 +213,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_constructor(constructorRef) {
-        let request = `${url}/constructors.php?ref=${constructorRef}`;
+        let request = `${url}/constructors/${constructorRef}`;
         return fetch_store_API_data(request);
     }
 
@@ -223,7 +223,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_constructor_results(constructorRef, season) {
-        let request = `${url}/constructorResults.php?constructor=${constructorRef}&season=${season}`;
+        let request = `${url}/constructorResults/${constructorRef}/${season}`;
         return fetch_store_API_data(request);
     }
 
@@ -234,7 +234,7 @@ function init() {
     /*------------------------------------------------------------------------------------------------------*/
 
     function fetch_circuit(circuitID) {
-        let request = `${url}/circuits.php?id=${circuitID}`;
+        let request = `${url}/circuits/${circuitID}`;
         return fetch_store_API_data(request);
     }
 
@@ -255,7 +255,7 @@ function init() {
                 const response = await fetch(request);
                 const data = await response.json();
 
-                if (request.includes("/races.php?season=") || request.includes("/results.php?season=") || request.includes("/qualifying.php?season=")) {
+                if (request.includes("/races") || request.includes("/results") || request.includes("/qualifying")) {
                     localStorage.setItem(request, JSON.stringify(data)); // Save data to local storage as a JSON string
                     console.log("Data stored in local storage! request:" + request);
                 }
