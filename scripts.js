@@ -634,6 +634,8 @@ function init() {
     // Purpose: generates the table of qualifying drivers in a grand prix
     /*------------------------------------------------------------------------------------------------------*/
     function generate_qualify_table(qualifying) {
+        console.log("Attempting to generate qualifying table, with data: ", qualifying);
+        
         for (let qualify of qualifying) {
             const row = document.createElement("tr");
             row.className = "odd: bg-stone-50 even:bg-stone-300"
@@ -1096,33 +1098,40 @@ function init() {
                     constructorTable.innerHTML = "";
                     console.log("constructorResults", constructorResults);
                     console.log("data: ", data);
-                    for (let constructor of data) {
+                    let value = 0;
+                    let counter = 0;
+                    for (let result of data) {
+                        if(counter % 2 == 0)
+                        {
+                            value++;
+                        }
+                        counter++;
                         const row = document.createElement("tr");
                         row.className = "bg-white border-b dark:bg-customBlackHover dark:border-gray-700";
                         
                         const round = document.createElement("td");
                         round.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-                        round.textContent = constructor.round;
+                        round.textContent = value;
                         row.appendChild(round);
                 
                         const raceName = document.createElement("td");
                         raceName.className = "px-6 py-4";
-                        raceName.textContent = constructor.name;
+                        raceName.textContent = result.race.name;
                         row.appendChild(raceName);
 
                         const driverName = document.createElement("td");
                         driverName.className = "px-6 py-4";
-                        driverName.textContent = constructor.forename + " " + constructor.surname;
+                        driverName.textContent = result.driver.forename + " " + result.driver.surname;
                         row.appendChild(driverName);
                 
                         const position = document.createElement("td");
                         position.className = "px-6 py-4";
-                        position.textContent = constructor.positionOrder;
+                        position.textContent = result.position;
                         row.appendChild(position);
 
                         const points = document.createElement("td");
                         points.className = "px-6 py-4";
-                        points.textContent = constructorResults.find(result => result.id == constructor.resultId).points;
+                        points.textContent = result.points;
                         row.appendChild(points);
                         constructorTable.appendChild(row);
                     }        
@@ -1154,28 +1163,29 @@ function init() {
                 console.log("driver results", data);
                 show_loader(driverTable, false);
                 console.log("seasonResults: ", driverResults);
-                for (let driver of data) {
+                let counter = 0;
+                for (let result of data) {
                     const row = document.createElement("tr");
                     row.className = "bg-white border-b dark:bg-customBlackHover dark:border-gray-700";
                     
                     const round = document.createElement("td");
                     round.className = "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
-                    round.textContent = driver.round;
+                    round.textContent = counter++;
                     row.appendChild(round);
             
                     const raceName = document.createElement("td");
                     raceName.className = "px-6 py-4";
-                    raceName.textContent = driver.name;
+                    raceName.textContent = result.race.name;
                     row.appendChild(raceName);
             
                     const position = document.createElement("td");
                     position.className = "px-6 py-4";
-                    position.textContent = driver.positionOrder;
+                    position.textContent = result.position;
                     row.appendChild(position);
 
                     const points = document.createElement("td");
                     points.className = "px-6 py-4";
-                    points.textContent = driverResults.find(result => result.id == driver.resultId).points;
+                    points.textContent = result.points;
                     row.appendChild(points);
             
                     driverTable.appendChild(row);
